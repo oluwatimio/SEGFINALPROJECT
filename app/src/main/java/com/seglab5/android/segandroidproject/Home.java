@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -13,14 +14,23 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.firebase.ui.auth.AuthUI;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import org.w3c.dom.Text;
+
+import java.util.ArrayList;
 import java.util.Arrays;
 
 public class Home extends AppCompatActivity
@@ -29,8 +39,18 @@ public class Home extends AppCompatActivity
     private FirebaseAuth mAuth;
     FirebaseUser user;
     final int RC_SIGN_IN = 1000;
+    private final String LOG_TAG = Home.class.getSimpleName();
+    int check = 0;
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference NewUser = database.getReference("segandroidproject");
+    ArrayList<Status> allUsers = new ArrayList<Status>();
+    TextView STATUS;
+    EditText STATUSE;
+    Button STATUSB;
+    TextView userID;
+    TextView Email;
+    TextView status1;
+    int l = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -118,6 +138,70 @@ public class Home extends AppCompatActivity
         return true;
     }
 
+    public void USER(){
+        ChildEventListener userListener = new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                Status status = dataSnapshot.getValue(Status.class);
+
+                Log.d(LOG_TAG, "in user");
+
+                if (status.getUid().equals(mAuth.getCurrentUser().getUid())){
+                    allUsers.clear();
+                    allUsers.add(status);
+                    setStuff();
+                }
+
+                else{
+                    setStuff2();
+                }
+
+                if (allUsers.size()>0){
+                    if (allUsers.get(0).getStatus().equals("") && l != 1){
+
+                        STATUS = (TextView) findViewById(R.id.textView8);
+                        STATUSE = (EditText) findViewById(R.id.statusset);
+                        STATUSB = (Button) findViewById(R.id.sets);
+
+                        STATUS.setVisibility(View.VISIBLE);
+                        STATUSE.setVisibility(View.VISIBLE);
+                        STATUSE.setVisibility(View.VISIBLE);
+                        STATUSB.setVisibility(View.VISIBLE);
+                    }
+                }
+
+
+
+
+
+            }
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        };
+
+
+
+        DatabaseReference userref = database.getReference("segandroidproject/USERS");
+        userref.addChildEventListener(userListener);
+    }
+
 
 
     @Override
@@ -125,7 +209,14 @@ public class Home extends AppCompatActivity
         super.onStart();
         if(mAuth.getCurrentUser() == null)
         {
+            Log.d(LOG_TAG, "in onstart fireui");
             firebaseUi();
+            Log.d(LOG_TAG, "in onstart fireui2");
+            USER();
+        }
+
+        else{
+            USER();
         }
 
         //else{
@@ -144,10 +235,10 @@ public class Home extends AppCompatActivity
             if(resultCode == RESULT_OK)
             {
                 Toast.makeText(this, "SIGN IN SUCCESSFULL", Toast.LENGTH_LONG).show();
-                setStuff();
                 Intent intent = getIntent();
                 finish();
                 startActivity(intent);
+
             }
             else {
                 Toast.makeText(this, "SIGN IN FAILED", Toast.LENGTH_LONG).show();
@@ -168,21 +259,59 @@ public class Home extends AppCompatActivity
                 RC_SIGN_IN);
     }
 
-    public void setStuff(){
+
+    public void setStuff2(){
+
         String uid = mAuth.getCurrentUser().getUid();
         String email = mAuth.getCurrentUser().getEmail();
         String status = "";
 
         Status main = new Status(uid,email,status);
 
+        Log.d(LOG_TAG, "in check");
+
         writeUser(main);
+
+    }
+    public void setStuff(){
+
+
+
+        Log.d(LOG_TAG, "in else");
+
+        userID = (TextView)findViewById(R.id.textView3);
+        userID.setText(allUsers.get(0).getUid());
+        Email = (TextView)findViewById(R.id.textView5);
+        Email.setText(allUsers.get(0).getEmail());
+        status1 = (TextView)findViewById(R.id.textView7);
+        status1.setText(allUsers.get(0).getStatus());
 
     }
 
     public void writeUser(Status status){
 
-
         NewUser.child("USERS").child(status.getUid()).setValue(status);
         //NewUniversity.child("Programs").child(name).child("Program").setValue(y.getName());
+    }
+
+    public void writeUser2(View view){
+
+        Status newone = new Status(allUsers.get(0).getUid(),allUsers.get(0).getEmail(),STATUSE.getText().toString());
+        NewUser.child("USERS").child(allUsers.get(0).getUid()).setValue(newone);
+
+        STATUS = (TextView) findViewById(R.id.textView8);
+        STATUSE = (EditText) findViewById(R.id.statusset);
+        STATUSB = (Button) findViewById(R.id.sets);
+
+        STATUS.setVisibility(View.GONE);
+        STATUSE.setVisibility(View.GONE);
+        STATUSE.setVisibility(View.GONE);
+        STATUSB.setVisibility(View.GONE);
+
+        l = 1;
+
+        USER();
+
+
     }
 }

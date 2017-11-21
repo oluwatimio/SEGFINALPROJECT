@@ -8,6 +8,10 @@ public class Status {
     String uid;
     String email;
     String status;
+
+    public Status(){
+
+    }
     public Status(String uid, String email, String status){
         this.uid = uid;
         this.email = email;
