@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="Statuses">
+        <item>Passenger</item>
+        <item>Flight Attendant</item>
+        <item>Ground Crew</item>
+        <item>Air Traffic Control</item>
+        <item>Luggage Handler</item>
+        <item>Security Personnel</item>
+        <item>Airport Management</item>
+    </string-array>
+</resources>

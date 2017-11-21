@@ -9,7 +9,10 @@ public class Status {
     String email;
     String status;
 
+
+
     public Status(){
+
 
     }
     public Status(String uid, String email, String status){
@@ -29,4 +32,16 @@ public class Status {
     public String getStatus(){
         return this.status;
     }
+    public void setUid(String uid) {
+        this.uid = uid;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
 }

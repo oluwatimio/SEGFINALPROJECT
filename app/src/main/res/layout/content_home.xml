@@ -36,26 +36,6 @@
         android:layout_margin="5dp"/>
 
     <TextView
-        android:id="@+id/textView4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/textView3"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
-        android:text="Email:"
-        android:layout_margin="5dp"/>
-
-    <TextView
-        android:id="@+id/textView5"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/textView4"
-        android:layout_centerHorizontal="true"
-        android:layout_margin="5dp"
-        android:layout_marginTop="22dp"
-        android:text="" />
-
-    <TextView
         android:id="@+id/textView6"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -73,40 +53,7 @@
         android:layout_centerHorizontal="true"
         android:layout_margin="5dp"
         android:layout_marginTop="22dp"
-        android:text="" />
+        android:text="STATUS NOT SET. PLEASE SET STATUS USING THE MENU" />
 </LinearLayout>
-
-    <TextView
-        android:id="@+id/textView8"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/linearLayout"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="11dp"
-        android:text="Set status"
-        android:visibility="invisible" />
-
-    <EditText
-        android:id="@+id/statusset"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/textView8"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="15dp"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:text="Please SET your status"
-        android:visibility="invisible" />
-
-    <Button
-        android:id="@+id/sets"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/statusset"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="19dp"
-        android:text="SET"
-        android:visibility="invisible"
-        android:onClick="writeUser2"/>
 
 </RelativeLayout>

@@ -1,9 +1,11 @@
 package com.seglab5.android.segandroidproject;
-
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.DialogFragment;
 import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -27,6 +29,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import org.w3c.dom.Text;
 
@@ -43,14 +46,12 @@ public class Home extends AppCompatActivity
     int check = 0;
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference NewUser = database.getReference("segandroidproject");
-    ArrayList<Status> allUsers = new ArrayList<Status>();
-    TextView STATUS;
-    EditText STATUSE;
-    Button STATUSB;
+    Status allUsers = new Status();
+
     TextView userID;
-    TextView Email;
     TextView status1;
     int l = 0;
+    int y = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,7 +60,7 @@ public class Home extends AppCompatActivity
         setSupportActionBar(toolbar);
 
         mAuth = FirebaseAuth.getInstance();
-        user = mAuth.getCurrentUser();
+
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -102,14 +103,18 @@ public class Home extends AppCompatActivity
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
+        int i=0;
         int id = item.getItemId();
-
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             mAuth.signOut();
             firebaseUi();
         }
-
+        if (id == R.id.action_setstatus){
+            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+            DialogFragment newFragment = new StatusDialog();
+            newFragment.show(ft, "dialog");
+        }
         return super.onOptionsItemSelected(item);
     }
 
@@ -138,56 +143,14 @@ public class Home extends AppCompatActivity
         return true;
     }
 
-    public void USER(){
-        ChildEventListener userListener = new ChildEventListener() {
+    public void USER(String uid){
+        Log.d(LOG_TAG, uid);
+        ValueEventListener eventListener = new ValueEventListener() {
             @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                Status status = dataSnapshot.getValue(Status.class);
-
-                Log.d(LOG_TAG, "in user");
-
-                if (status.getUid().equals(mAuth.getCurrentUser().getUid())){
-                    allUsers.clear();
-                    allUsers.add(status);
-                    setStuff();
-                }
-
-                else{
-                    setStuff2();
-                }
-
-                if (allUsers.size()>0){
-                    if (allUsers.get(0).getStatus().equals("") && l != 1){
-
-                        STATUS = (TextView) findViewById(R.id.textView8);
-                        STATUSE = (EditText) findViewById(R.id.statusset);
-                        STATUSB = (Button) findViewById(R.id.sets);
-
-                        STATUS.setVisibility(View.VISIBLE);
-                        STATUSE.setVisibility(View.VISIBLE);
-                        STATUSE.setVisibility(View.VISIBLE);
-                        STATUSB.setVisibility(View.VISIBLE);
-                    }
-                }
-
-
-
-
-
-            }
-            @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Log.d(LOG_TAG, dataSnapshot.toString());
+                allUsers = dataSnapshot.getValue(Status.class);
+                setStuff();
             }
 
             @Override
@@ -196,10 +159,16 @@ public class Home extends AppCompatActivity
             }
         };
 
-
-
-        DatabaseReference userref = database.getReference("segandroidproject/USERS");
-        userref.addChildEventListener(userListener);
+        DatabaseReference userref = database.getReference("segandroidproject/USERS/" + uid);
+        if (userref == null){
+            Log.d(LOG_TAG, "user ref is null");
+            setStuff2();
+        }
+        else{
+            Log.d(LOG_TAG, "user ref is not null");
+            //userref.addChildEventListener(eventListener);
+            userref.addValueEventListener(eventListener);
+        }
     }
 
 
@@ -207,23 +176,18 @@ public class Home extends AppCompatActivity
     @Override
     public void onStart() {
         super.onStart();
-        if(mAuth.getCurrentUser() == null)
+        Log.d(LOG_TAG, "on start");
+        user = mAuth.getCurrentUser();
+        if(user == null)
         {
             Log.d(LOG_TAG, "in onstart fireui");
             firebaseUi();
             Log.d(LOG_TAG, "in onstart fireui2");
-            USER();
-        }
 
+        }
         else{
-            USER();
+            USER(user.getUid());
         }
-
-        //else{
-          //  Intent intent = getIntent();
-            //finish();
-            //startActivity(intent);
-        //}
     }
 
     @Override
@@ -238,7 +202,6 @@ public class Home extends AppCompatActivity
                 Intent intent = getIntent();
                 finish();
                 startActivity(intent);
-
             }
             else {
                 Toast.makeText(this, "SIGN IN FAILED", Toast.LENGTH_LONG).show();
@@ -261,57 +224,20 @@ public class Home extends AppCompatActivity
 
 
     public void setStuff2(){
-
         String uid = mAuth.getCurrentUser().getUid();
         String email = mAuth.getCurrentUser().getEmail();
         String status = "";
-
         Status main = new Status(uid,email,status);
-
-        Log.d(LOG_TAG, "in check");
-
         writeUser(main);
-
     }
     public void setStuff(){
-
-
-
-        Log.d(LOG_TAG, "in else");
-
         userID = (TextView)findViewById(R.id.textView3);
-        userID.setText(allUsers.get(0).getUid());
-        Email = (TextView)findViewById(R.id.textView5);
-        Email.setText(allUsers.get(0).getEmail());
+        userID.setText(allUsers.getUid());
         status1 = (TextView)findViewById(R.id.textView7);
-        status1.setText(allUsers.get(0).getStatus());
-
+        status1.setText(allUsers.getStatus());
     }
 
     public void writeUser(Status status){
-
         NewUser.child("USERS").child(status.getUid()).setValue(status);
-        //NewUniversity.child("Programs").child(name).child("Program").setValue(y.getName());
-    }
-
-    public void writeUser2(View view){
-
-        Status newone = new Status(allUsers.get(0).getUid(),allUsers.get(0).getEmail(),STATUSE.getText().toString());
-        NewUser.child("USERS").child(allUsers.get(0).getUid()).setValue(newone);
-
-        STATUS = (TextView) findViewById(R.id.textView8);
-        STATUSE = (EditText) findViewById(R.id.statusset);
-        STATUSB = (Button) findViewById(R.id.sets);
-
-        STATUS.setVisibility(View.GONE);
-        STATUSE.setVisibility(View.GONE);
-        STATUSE.setVisibility(View.GONE);
-        STATUSB.setVisibility(View.GONE);
-
-        l = 1;
-
-        USER();
-
-
     }
 }
