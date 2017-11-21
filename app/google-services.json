@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "127628571189",
+    "firebase_url": "https://segandroidproject.firebaseio.com",
+    "project_id": "segandroidproject",
+    "storage_bucket": "segandroidproject.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:127628571189:android:1ab7d1972f6d2f93",
+        "android_client_info": {
+          "package_name": "com.seglab5.android.segandroidproject"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "127628571189-00eml672iugf93ejbeoc7674mm5dmskl.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.seglab5.android.segandroidproject",
+            "certificate_hash": "34d83eab2854c05d7225712eecc50d9766717e84"
+          }
+        },
+        {
+          "client_id": "127628571189-cfe501pubg4em6hne38kp7hur522oe9v.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB331lbqh9QjBbF_TBIGMAdH0-rI31CVC4"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "127628571189-cfe501pubg4em6hne38kp7hur522oe9v.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
