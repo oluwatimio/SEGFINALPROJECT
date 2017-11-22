@@ -47,7 +47,7 @@ public class StatusDialog extends DialogFragment {
         uid = user.getUid();
         statusArray =   getResources().getStringArray(R.array.Statuses);
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setTitle("Pick Status")
+        builder.setTitle("Set Position")
                 .setItems(R.array.Statuses, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         Log.d(LOG_TAG,String.valueOf(which) + "herec");

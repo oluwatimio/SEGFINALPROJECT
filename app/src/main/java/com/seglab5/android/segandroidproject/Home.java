@@ -18,6 +18,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -49,6 +50,8 @@ public class Home extends AppCompatActivity
     Status allUsers = new Status();
 
     TextView userID;
+    TextView userID2;
+    ImageView img;
     TextView status1;
     int l = 0;
     int y = 0;
@@ -231,10 +234,14 @@ public class Home extends AppCompatActivity
         writeUser(main);
     }
     public void setStuff(){
-        userID = (TextView)findViewById(R.id.textView3);
+        userID = (TextView)findViewById(R.id.UserIDset);
         userID.setText(allUsers.getUid());
+        img = (ImageView) findViewById(R.id.imageView1);
+        userID2 = (TextView) findViewById(R.id.textView3);
+        userID2.setText("Welcome, " + mAuth.getCurrentUser().getDisplayName());
+        img.setImageURI(mAuth.getCurrentUser().getPhotoUrl());
         status1 = (TextView)findViewById(R.id.textView7);
-        status1.setText(allUsers.getStatus());
+        status1.setText("You are a " + allUsers.getStatus());
     }
 
     public void writeUser(Status status){
