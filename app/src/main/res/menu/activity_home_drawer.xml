@@ -6,28 +6,28 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_camera"
-            android:icon="@drawable/ic_menu_camera"
-            android:title="Import" />
+            android:icon="@drawable/ic_report_problem_black_24dp"
+            android:title="Report Emmergency" />
         <item
             android:id="@+id/nav_gallery"
-            android:icon="@drawable/ic_menu_gallery"
-            android:title="Gallery" />
+            android:icon="@drawable/ic_watch_later_black_24dp"
+            android:title="Delays" />
         <item
             android:id="@+id/nav_slideshow"
-            android:icon="@drawable/ic_menu_slideshow"
-            android:title="Slideshow" />
+            android:icon="@drawable/ic_work_black_24dp"
+            android:title="Work Schedule" />
         <item
             android:id="@+id/nav_manage"
-            android:icon="@drawable/ic_menu_manage"
-            android:title="Tools" />
+            android:icon="@drawable/ic_flight_black_24dp"
+            android:title="Flight Schedules" />
     </group>
 
-    <item android:title="Communicate">
+    <item android:title="Security">
         <menu>
             <item
                 android:id="@+id/nav_share"
                 android:icon="@drawable/ic_menu_share"
-                android:title="Share" />
+                android:title="Flags" />
             <item
                 android:id="@+id/nav_send"
                 android:icon="@drawable/ic_menu_send"

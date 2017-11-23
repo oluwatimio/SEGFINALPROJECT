@@ -172,7 +172,7 @@ public class Home extends AppCompatActivity
             //userref.addChildEventListener(eventListener);
             userref.addValueEventListener(eventListener);
         }
-    }
+    } //READS INFO FROM DATABASE
 
 
 
@@ -202,9 +202,9 @@ public class Home extends AppCompatActivity
             if(resultCode == RESULT_OK)
             {
                 Toast.makeText(this, "SIGN IN SUCCESSFULL", Toast.LENGTH_LONG).show();
-                Intent intent = getIntent();
-                finish();
-                startActivity(intent);
+                //Intent intent = getIntent();
+                //finish();
+                //startActivity(intent);
             }
             else {
                 Toast.makeText(this, "SIGN IN FAILED", Toast.LENGTH_LONG).show();
@@ -212,7 +212,7 @@ public class Home extends AppCompatActivity
         }
     }
 
-    public void firebaseUi()
+    public void firebaseUi() //Authentication Script! DON'T TOUCH!
     {
         startActivityForResult(
                 AuthUI.getInstance()
@@ -232,7 +232,7 @@ public class Home extends AppCompatActivity
         String status = "";
         Status main = new Status(uid,email,status);
         writeUser(main);
-    }
+    } //Adds user an sufficient information to the database
     public void setStuff(){
         userID = (TextView)findViewById(R.id.UserIDset);
         userID.setText(allUsers.getUid());
@@ -242,9 +242,9 @@ public class Home extends AppCompatActivity
         img.setImageURI(mAuth.getCurrentUser().getPhotoUrl());
         status1 = (TextView)findViewById(R.id.textView7);
         status1.setText("You are a " + allUsers.getStatus());
-    }
+    } // Sets information from on user to the app
 
     public void writeUser(Status status){
         NewUser.child("USERS").child(status.getUid()).setValue(status);
-    }
+    } //Writes user info from addstuff2 to the database. DON'T TOUCH!
 }

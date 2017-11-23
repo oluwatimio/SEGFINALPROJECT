@@ -11,10 +11,10 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="180dp"
-        android:background="@drawable/background3"
         android:id="@+id/relativeLayout"
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true">
+        <!--android:background="@drawable/background3"-->
 
         <TextView
             android:id="@+id/textView3"
@@ -24,7 +24,7 @@
             android:textSize="40sp"
             android:text="No ID"
             android:textAlignment="textStart"
-            android:textColor="#f5f5f5"
+            android:textColor="@color/black"
             android:layout_margin="5dp"/>
 
 
@@ -38,8 +38,8 @@
             android:layout_marginTop="40dp"
             android:text="Set postion using the menu"
             android:textAlignment="textStart"
-            android:textColor="#f5f5f5"
-            android:textSize="40sp"
+            android:textColor= "@color/black"
+            android:textSize="25sp"
             android:layout_margin="5dp"/>
         <!--android:textColor="black"-->
 
