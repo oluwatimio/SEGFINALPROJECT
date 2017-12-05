@@ -19,7 +19,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".STATUSA"></activity>
+        <activity android:name=".STATUSA" />
+        <activity android:name=".Emmergency" />
+        <activity android:name=".Delays" />
+        <activity android:name=".adddelay" />
+        <activity android:name=".addemergency" />
+        <activity android:name=".FlightScheduleActivity" />
+        <activity android:name=".addflight"></activity>
     </application>
 
 </manifest>

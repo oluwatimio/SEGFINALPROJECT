@@ -60,6 +60,7 @@ public class Home extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        //toolbar.setTitle("Home");
         setSupportActionBar(toolbar);
 
         mAuth = FirebaseAuth.getInstance();
@@ -128,12 +129,23 @@ public class Home extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_camera) {
-            // Handle the camera action
+            Intent intent = new Intent(Home.this,Emmergency.class);
+            startActivity(intent);
         } else if (id == R.id.nav_gallery) {
+            //if (!(allUsers.getStatus().equals("Passenger"))){
+            Intent intent = new Intent(Home.this,Delays.class);
+            startActivity(intent);
+            //}
+
+            //else{
+              //  Toast.makeText(this, "Restricted Portal. Passenger!", Toast.LENGTH_LONG).show();
+            //}
 
         } else if (id == R.id.nav_slideshow) {
 
         } else if (id == R.id.nav_manage) {
+            Intent intent = new Intent(Home.this,FlightScheduleActivity.class);
+            startActivity(intent);
 
         } else if (id == R.id.nav_share) {
 
@@ -153,7 +165,12 @@ public class Home extends AppCompatActivity
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Log.d(LOG_TAG, dataSnapshot.toString());
                 allUsers = dataSnapshot.getValue(Status.class);
-                setStuff();
+                if (allUsers == null){
+                    setStuff2();
+                }
+                else{
+                    setStuff();
+                }
             }
 
             @Override
@@ -161,11 +178,9 @@ public class Home extends AppCompatActivity
 
             }
         };
-
         DatabaseReference userref = database.getReference("segandroidproject/USERS/" + uid);
         if (userref == null){
             Log.d(LOG_TAG, "user ref is null");
-            setStuff2();
         }
         else{
             Log.d(LOG_TAG, "user ref is not null");
@@ -239,7 +254,7 @@ public class Home extends AppCompatActivity
         img = (ImageView) findViewById(R.id.imageView1);
         userID2 = (TextView) findViewById(R.id.textView3);
         userID2.setText("Welcome, " + mAuth.getCurrentUser().getDisplayName());
-        img.setImageURI(mAuth.getCurrentUser().getPhotoUrl());
+        //img.setImageURI(mAuth.getCurrentUser().getPhotoUrl());
         status1 = (TextView)findViewById(R.id.textView7);
         status1.setText("You are a " + allUsers.getStatus());
     } // Sets information from on user to the app
